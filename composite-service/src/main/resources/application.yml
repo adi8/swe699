@@ -1,0 +1,11 @@
+service.port: 7000
+
+app:
+  order-service:
+    host: localhost
+    port: 7001
+
+logging:
+  level:
+    root: INFO
+    com.example.demo: DEBUG
