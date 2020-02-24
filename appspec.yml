@@ -8,6 +8,9 @@ files:
   - source: order-1.0.0-SNAPSHOT.jar
     destination: /home/ubuntu
 hooks:
+  BeforeInstall:
+    - location: stopApp.sh
+      timeout: 180
   AfterInstall:
     - location: runApp.sh
       timeout: 180

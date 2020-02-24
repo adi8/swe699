@@ -14,9 +14,14 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - zip -jr out.zip api/build/libs/api-1.0.0-SNAPSHOT.jar composite-service/build/libs/composite-service-1.0.0-SNAPSHOT.jar order/build/libs/order-1.0.0-SNAPSHOT.jar runApp.sh appspec.yml
+#      - zip -jr out.zip api/build/libs/api-1.0.0-SNAPSHOT.jar composite-service/build/libs/composite-service-1.0.0-SNAPSHOT.jar order/build/libs/order-1.0.0-SNAPSHOT.jar runApp.sh appspec.yml stopApp.sh
 artifacts:
   files:
-    - out.zip
+    - api/build/libs/api-1.0.0-SNAPSHOT.jar
+    - composite-service/build/libs/composite-service-1.0.0-SNAPSHOT.jar
+    - order/build/libs/order-1.0.0-SNAPSHOT.jar
+    - runApp.sh
+    - appspec.yml
+    - stopApp.sh
   discard-paths: yes
     
