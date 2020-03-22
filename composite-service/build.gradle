@@ -18,10 +18,20 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'idea'
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 
 group = 'edu.gmu.swe699.composite'
 version = '1.0.0-SNAPSHOT'
@@ -34,11 +44,18 @@ repositories {
 }
 
 dependencies {
+    developmentOnly('org.springframework.boot:spring-boot-devtools')
+
     implementation project(':api')
+
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation 'org.springframework.data:spring-data-commons:2.0.1.RELEASE'
+    implementation('com.amazonaws:aws-java-sdk-dynamodb:1.11.739')
+    implementation('com.github.derjust:spring-data-dynamodb:5.0.4')
+
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('io.projectreactor:reactor-test')
 }

@@ -1,9 +1,28 @@
 service.port: 7000
 
+#amazon.dynamodb.endpoint: http://localhost:8000
+amazon.dynamodb.endpoint: http://dynamodb.us-east-1.amazonaws.com
+
+spring.devtools.restart.additional-paths: static/**,templates/**
+
+server.error.whitelabel.enabled: false
+
 app:
   order-service:
     host: localhost
-    port: 7001
+    port: 9001
+
+amazon.aws:
+#  accesskey: akey
+#  secretkey: skey
+#  region: us-east-1
+  accesskey: AKIA6JUAEY3OSFLE7RHA
+  secretkey: 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
+  region: us-east-1
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
 
 logging:
   level:

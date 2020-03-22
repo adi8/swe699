@@ -5,6 +5,13 @@ plugins {
 	id 'idea'
 }
 
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
 group = 'edu.gmu.swe699'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -14,8 +21,15 @@ repositories {
 }
 
 dependencies {
+	developmentOnly('org.springframework.boot:spring-boot-devtools')
+
 	implementation project(':api')
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation('com.amazonaws:aws-java-sdk-dynamodb:1.11.739')
+	implementation('com.github.derjust:spring-data-dynamodb:5.0.4')
+	implementation('org.springframework.boot:spring-boot-starter-web:2.0.1.RELEASE')
+    implementation('org.springframework.data:spring-data-commons:2.0.1.RELEASE')
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
