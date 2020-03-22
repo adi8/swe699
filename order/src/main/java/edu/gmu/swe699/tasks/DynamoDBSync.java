@@ -2,7 +2,6 @@ package edu.gmu.swe699.tasks;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import edu.gmu.swe699.dynamodb.model.Restaurant;
@@ -12,7 +11,6 @@ import edu.gmu.swe699.mapstruct.RestaurantMapper;
 import edu.gmu.swe699.restaurantmanager.model.MenuList;
 import edu.gmu.swe699.restaurantmanager.model.RestaurantItem;
 import edu.gmu.swe699.restaurantmanager.model.RestaurantList;
-import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

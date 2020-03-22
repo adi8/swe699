@@ -1,6 +1,38 @@
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+
+spring:
+  profiles:
+    active: "prod"
+  main:
+    allow-bean-definition-overriding: true
+
 server.port: 9001
 
-#amazon.dynamodb.endpoint: http://localhost:8000
+---
+
+spring:
+  profiles: dev
+
+amazon.dynamodb.endpoint: http://localhost:8000
+
+app:
+  restaurant-manager:
+    host: localhost
+    port: 3000
+    base:
+
+amazon.aws:
+  accesskey: akey
+  secretkey: skey
+  region: us-east-1
+
+---
+
+spring:
+  profiles: prod
 
 amazon.dynamodb.endpoint: http://dynamodb.us-east-1.amazonaws.com
 
@@ -9,23 +41,10 @@ app:
     host: 3.84.29.72
     port: 8080
     base: RestaurantManager-0.0.1
-#    host: localhost
-#    port: 3000
-#    base:
 
 amazon.aws:
-#  accesskey: akey
-#  secretkey: skey
-#  region: us-east-1
   accesskey: AKIA6JUAEY3OSFLE7RHA
   secretkey: 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
   region: us-east-1
 
-spring:
-  main:
-    allow-bean-definition-overriding: true
 
-logging:
-  level:
-    root: INFO
-    com.example: DEBUG
