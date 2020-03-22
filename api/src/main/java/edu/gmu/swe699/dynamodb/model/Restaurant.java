@@ -32,11 +32,7 @@ public class Restaurant {
   public Restaurant(String id, String name, String description, String address,
       Set<String> cuisines,
       List<MenuItem> menu) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.address = address;
-    this.cuisines = cuisines;
+    this(id, name, description, address, cuisines);
     this.menu = menu;
   }
 

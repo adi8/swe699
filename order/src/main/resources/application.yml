@@ -38,7 +38,7 @@ amazon.dynamodb.endpoint: http://dynamodb.us-east-1.amazonaws.com
 
 app:
   restaurant-manager:
-    host: 3.84.29.72
+    host: 3.88.210.26
     port: 8080
     base: RestaurantManager-0.0.1
 
