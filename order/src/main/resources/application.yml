@@ -5,7 +5,7 @@ logging:
 
 spring:
   profiles:
-    active: "prod"
+    active: "dev"
   main:
     allow-bean-definition-overriding: true
 
@@ -43,8 +43,8 @@ app:
     base: RestaurantManager-0.0.1
 
 amazon.aws:
-  accesskey: AKIA6JUAEY3OSFLE7RHA
-  secretkey: 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
+  accesskey: AKIA6JUAEY3OUORY2Q7V
+  secretkey: 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
   region: us-east-1
 
 
