@@ -46,7 +46,7 @@ public class DynamoDBSync {
     return new RestTemplate();
   }
 
-  @Scheduled(fixedDelay = 60000)
+  @Scheduled(fixedDelay = 900000)
   public void syncRestaurantInfo() {
     // Generate url to call
     String restaurantManagerApiUrl =

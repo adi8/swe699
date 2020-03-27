@@ -30,7 +30,7 @@
         <!-- Restaurant info row -->
         <div class="row">
           <div class="col-10 offset-1">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow-sm">
               <div class="card-header">
                 <h2 th:text="${restaurant.name}"></h2>
               </div>
@@ -47,7 +47,7 @@
         <!-- Restaurant menu items -->
         <div class="row" th:each="menuItem : ${restaurant.menu}">
           <div class="col-10 offset-1">
-            <div class="card mt-3">
+            <div class="card mt-3 shadow-sm">
               <div class="card-body">
                 <button type="button" class="btn btn-primary float-right" name="addCartBtn">Add</button>
                 <h5 class="card-title" th:text="${menuItem.name}"></h5>
@@ -60,18 +60,75 @@
       </div>
     </div>
     <div class="col-4">
-      <!-- Shopping cart container -->
-      <div class="container">
-        <div class="card mt-3" id="shoppingCart">
-          <div class="card-header">Shopping Cart</div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item" id="cartItemSample" style="display: none;">
-                <span class="font-italic"></span>
-                <span class="font-weight-light"></span>
-                <button type="button" class="btn btn-danger float-right btn-sm" name="removeCartBtn">Remove</button>
-              </li>
-            </ul>
+      <div class="row">
+        <!-- Shopping cart container -->
+        <div class="container">
+          <div class="card mt-3 shadow-sm" id="shoppingCart">
+            <div class="card-header">Food Cart</div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush" id="foodCartList">
+                <li class="list-group-item" id="cartItemSample" style="display: none;">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <span class="font-italic"></span>
+                      </div>
+                      <div class="col-3">
+                        <span class="font-weight-light"></span>
+                      </div>
+                      <div class="col-3">
+                        <button type="button" class="btn btn-danger float-right btn-sm" name="removeCartBtn">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container">
+          <div class="card mt-3 shadow-sm">
+            <div class="card-header">Order Total</div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <span class="font-weight-bold">Item total</span>
+                  </div>
+                  <div class="col text-right">
+                    <span class="font-weight-light" id="itemTotal">$0.00</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <span class="font-weight-bold">Tax</span>
+                  </div>
+                  <div class="col text-right">
+                    <span class="font-weight-light" id="itemTax">$0.00</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <span class="font-weight-bold">Total</span>
+                  </div>
+                  <div class="col text-right">
+                    <span class="font-weight-light" id="total">$0.00</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <hr/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 offset-3">
+                    <button type="button" class="btn btn-success btn-block">Checkout</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

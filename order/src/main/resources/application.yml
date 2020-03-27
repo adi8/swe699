@@ -43,8 +43,8 @@ app:
     base: RestaurantManager-0.0.1
 
 amazon.aws:
-  accesskey: AKIA6JUAEY3OUORY2Q7V
-  secretkey: 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
+  accesskey: AKIA6JUAEY3O3ZSXVGAO
+  secretkey: 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
   region: us-east-1
 
 
