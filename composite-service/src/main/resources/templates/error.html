@@ -3,12 +3,13 @@
 <head>
   <title>Order Out! Error</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link th:replace="order-landing::favicon">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 </head>
 <body>
-  <nav th:replace="order-landing.html :: navbar"></nav>
+  <nav th:replace="order-landing::navbar"></nav>
 
-  <div class="container-fluid bg-danger text-center vh-100">
+  <div class="container-fluid bg-danger text-center vh-100 pb-3">
     <div class="row">
       <div class="col pt-5">
         <h1>Oops! Something went wrong</h1>
