@@ -2,6 +2,7 @@ package edu.gmu.swe699.dynamodb.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import javax.validation.constraints.NotNull;
 
 @DynamoDBDocument
 public class MenuItem {
@@ -15,11 +16,15 @@ public class MenuItem {
 
   }
 
-  public MenuItem(String id, String name, String description, double price) {
+  public MenuItem(String id, double price) {
     this.id = id;
+    this.price = price;
+  }
+
+  public MenuItem(String id, String name, String description, double price) {
+    this(id, price);
     this.name = name;
     this.description = description;
-    this.price = price;
   }
 
   @DynamoDBAttribute(attributeName = "id")
@@ -61,7 +66,14 @@ public class MenuItem {
   @Override
   public String toString() {
     return String
-        .format("MenuItem[id='%s', name='%s', desc='%s', price='%.2f'", id, name, description,
+        .format("MenuItem[id='%s', name='%s', desc='%s', price='%.2f']", id, name, description,
             price);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    MenuItem menuItem = (MenuItem) o;
+    return menuItem != null && this.id.equals(menuItem.getId()) && this.price == menuItem
+        .getPrice();
   }
 }

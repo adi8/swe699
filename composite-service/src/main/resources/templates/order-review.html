@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+  <title>Order Out! Review</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link th:replace="order-landing::favicon">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+</head>
+<body>
+<nav th:replace="order-landing::navbar"></nav>
+
+<div class="container-fluid pb-3">
+  <div class="row">
+    <div class="col-6 offset-1">
+      <div class="container-fluid">
+
+        <!-- Restaurant Info -->
+        <div class="row">
+          <div class="col">
+            <div class="card shadow-sm" th:replace="order-landing::restaurantInfo"></div>
+          </div>
+        </div>
+
+        <!-- Place Order Form -->
+        <form action="/order/confirm" method="post" id="placeOrderForm">
+          <input type="hidden" id="orderId" name="orderId" th:value="${order.id}">
+          <div class="row">
+            <div class="col">
+              <div class="card shadow-sm mt-3">
+                <div class="card-header">Delivery Information</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="streetAddr1">Street Address <small>Line 1</small></label>
+                    <input type="text" class="form-control" name="streetAddr1" id="streetAddr1">
+                  </div>
+                  <div class="form-group">
+                    <label for="streetAddr2">Street Address <small>Line 2</small></label>
+                    <input type="text" class="form-control" name="streetAddr2" id="streetAddr2">
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" name="city" id="city">
+                  </div>
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <select class="custom-select" name="state" id="state">
+                      <option selected disabled value="Select">Select</option>
+                      <option th:each="state : ${states}" th:value="${state}"
+                              th:text="${state}"></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="country">Country</label>
+                    <select class="custom-select" name="country" id="country">
+                      <option selected disabled value="Select">Select</option>
+                      <option th:each="country : ${countries}" th:value="${country}"
+                              th:text="${country}"></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="zipCode">Zip Code</label>
+                    <input type="text" class="form-control" name="zipCode" id="zipCode">
+                  </div>
+                  <div class="form-group">
+                    <label for="deliveryInst">Delivery Instructions</label>
+                    <textarea class="form-control" name="deliveryInst" id="deliveryInst"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card shadow-sm mt-3">
+                <div class="card-header">Payment Information</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="nameOnCard">Name on Card</label>
+                    <input type="text" class="form-control" name="nameOnCard" id="nameOnCard">
+                  </div>
+                  <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" class="form-control" name="cardNumber" id="cardNumber">
+                  </div>
+                  <div class="form-group">
+                    <label for="cardValidThru">Valid Thru</label>
+                    <input type="text" class="form-control" name="cardValidThru" id="cardValidThru">
+                  </div>
+                  <div class="form-group">
+                    <label for="cardCvv">CVV</label>
+                    <input type="text" class="form-control" name="cardCvv" id="cardCvv">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Order details -->
+    <div class="col-4">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card mt-3 shadow-sm">
+              <div class="card-header" th:data-orderid="${order.id}" id="orderTitle"><h4>Order
+                Details</h4></div>
+              <ul class="list-group list-group-flush" th:fragment="orderMenuList">
+                <li class="list-group-item" th:each="orderMenuItem : ${order.orderMenuItems}">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-6">
+                        <span class="font-weight-light" th:text="${orderMenuItem.name}"></span>
+                      </div>
+                      <div class="col-3">
+                  <span class="font-weight-light font-italic"
+                        th:text="|x${orderMenuItem.qty}|"></span>
+                      </div>
+                      <div class="col-3">
+                  <span class="font-weight-light"
+                        th:text="|$${#numbers.formatDecimal(orderMenuItem.price, 1, 2)}|"></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-9">
+                        <span class="font-weight-normal">Base</span>
+                      </div>
+                      <div class="col-3">
+                  <span class="font-weight-light"
+                        th:text="|$${#numbers.formatDecimal(order.baseAmount, 1, 2)}|"></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-9">
+                        <span class="font-weight-normal">Tax</span>
+                      </div>
+                      <div class="col-3">
+                  <span class="font-weight-light"
+                        th:text="|$${#numbers.formatDecimal(order.tax, 1, 2)}|"></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-9">
+                        <span class="font-weight-bold">Total</span>
+                      </div>
+                      <div class="col-3">
+                  <span class="font-weight-light"
+                        th:text="|$${#numbers.formatDecimal(order.amount, 1, 2)}|"></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mt-3">
+            <button type="button" class="btn btn-success btn-block shadow-sm" id="placeOrderBtn">
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>
