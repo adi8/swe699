@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     order.setId(uuid);
 
     // Set state of the order to review
-    order.setState("review");
+    order.setStatus("review");
 
     orderRepository.save(order);
     return order;
@@ -72,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
     Order order = orderOptional.get();
     order.setDeliveryAddr(orderConfirmDTO.getDeliveryAddress());
     order.setDeliveryInst(orderConfirmDTO.getDeliveryInst());
-    order.setState("confirmed");
+    order.setStatus("confirmed");
     orderRepository.save(order);
     return order;
   }
