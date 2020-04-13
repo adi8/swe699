@@ -93,7 +93,7 @@ public class Restaurant {
   @Override
   public String toString() {
     StringBuilder restaurantMenu = new StringBuilder();
-    restaurantMenu.append("Menu[ ");
+    restaurantMenu.append("[ ");
     if (menu != null && !menu.isEmpty()) {
       for (MenuItem item : menu) {
         restaurantMenu.append(item.toString());
@@ -105,5 +105,9 @@ public class Restaurant {
     return String
         .format("Restaurant[id=%s, name='%s', desc='%s', addr='%s', cuisines='%s', menu='%s']",
             id, name, description, address, cuisines, restaurantMenu.toString());
+  }
+
+  public boolean hasMenuItem(MenuItem menuItem) {
+    return menu.contains(menuItem);
   }
 }
