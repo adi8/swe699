@@ -40,8 +40,8 @@ spring:
 amazon.dynamodb.endpoint: http://dynamodb.us-east-1.amazonaws.com
 
 amazon.aws:
-  accesskey: AKIA6JUAEY3O3ZSXVGAO
-  secretkey: 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
+  accesskey: AKIA6JUAEY3OW65G654U
+  secretkey: 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
   region: us-east-1
 
 
