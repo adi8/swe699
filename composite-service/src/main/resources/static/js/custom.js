@@ -72,7 +72,7 @@ $('body').on('click', 'button[name=reviewOrder]', function() {
   data['amount'] = parseFloat($('#total').text().substr(1).trim())
 
   $.ajax({
-    url: '/order/review',
+    url: '/order',
     method: 'POST',
     dataType: 'html',
     contentType: 'application/json; charset=utf-8',
