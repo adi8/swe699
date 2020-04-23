@@ -16,12 +16,14 @@ import edu.gmu.swe699.api.order.OrderService;
 
 @RestController
 public class OrderServiceImpl implements OrderService {
-
-  @Autowired
   RestaurantRepository restaurantRepository;
+  OrderRepository orderRepository;
 
   @Autowired
-  OrderRepository orderRepository;
+  public OrderServiceImpl(RestaurantRepository restaurantRepository, OrderRepository orderRepository) {
+    this.restaurantRepository = restaurantRepository;
+    this.orderRepository = orderRepository;
+  }
 
   @Override
   public Restaurant getRestaurant(String restaurantId) {
