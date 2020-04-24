@@ -7,6 +7,7 @@ import edu.gmu.swe699.dynamodb.model.Restaurant;
 import edu.gmu.swe699.dynamodb.repo.OrderRepository;
 import edu.gmu.swe699.dynamodb.repo.RestaurantRepository;
 import edu.gmu.swe699.order.OrderServiceImpl;
+import edu.gmu.swe699.tasks.SendConfirmedOrder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,9 @@ public class OrderServiceImplTest {
 
   @Mock
   private OrderRepository orderRepository;
+
+  @Mock
+  private SendConfirmedOrder sendConfirmedOrder;
 
   @InjectMocks
   @Autowired

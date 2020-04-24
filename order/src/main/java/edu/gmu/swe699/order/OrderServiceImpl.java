@@ -7,6 +7,7 @@ import edu.gmu.swe699.dynamodb.model.OrderMenuItem;
 import edu.gmu.swe699.dynamodb.model.Restaurant;
 import edu.gmu.swe699.dynamodb.repo.OrderRepository;
 import edu.gmu.swe699.dynamodb.repo.RestaurantRepository;
+import edu.gmu.swe699.tasks.SendConfirmedOrder;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,13 +17,17 @@ import edu.gmu.swe699.api.order.OrderService;
 
 @RestController
 public class OrderServiceImpl implements OrderService {
+
   RestaurantRepository restaurantRepository;
   OrderRepository orderRepository;
+  SendConfirmedOrder sendConfirmedOrder;
 
   @Autowired
-  public OrderServiceImpl(RestaurantRepository restaurantRepository, OrderRepository orderRepository) {
+  public OrderServiceImpl(RestaurantRepository restaurantRepository,
+      OrderRepository orderRepository, SendConfirmedOrder sendConfirmedOrder) {
     this.restaurantRepository = restaurantRepository;
     this.orderRepository = orderRepository;
+    this.sendConfirmedOrder = sendConfirmedOrder;
   }
 
   @Override
@@ -68,14 +73,16 @@ public class OrderServiceImpl implements OrderService {
   public Order confirmOrder(OrderConfirmDTO orderConfirmDTO) {
     Optional<Order> orderOptional = orderRepository.findById(orderConfirmDTO.getOrderId());
 
-    if (!orderOptional.isPresent())
+    if (!orderOptional.isPresent()) {
       return null;
+    }
 
     Order order = orderOptional.get();
     order.setDeliveryAddr(orderConfirmDTO.getDeliveryAddress());
     order.setDeliveryInst(orderConfirmDTO.getDeliveryInst());
     order.setStatus("confirmed");
     orderRepository.save(order);
+    sendConfirmedOrder.sendConfirmedOrder(order);
     return order;
   }
 
