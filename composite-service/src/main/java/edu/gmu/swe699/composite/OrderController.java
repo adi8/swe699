@@ -1,11 +1,9 @@
 package edu.gmu.swe699.composite;
 
-import com.sun.javafx.scene.layout.region.BorderStyleConverter;
 import edu.gmu.swe699.composite.services.CompositeServiceImpl;
 import edu.gmu.swe699.dto.OrderConfirmDTO;
 import edu.gmu.swe699.dynamodb.model.Order;
 import edu.gmu.swe699.dynamodb.model.Restaurant;
-import edu.gmu.swe699.dynamodb.repo.RestaurantRepository;
 import java.util.Arrays;
 import java.util.List;
 import javax.validation.Valid;
@@ -87,6 +85,9 @@ public class OrderController {
   @GetMapping(value = "/order/review")
   public String review(@RequestParam(name = "id", required = true) String id, Model model) {
     Order order = implementation.getOrder(id);
+    if (order.getStatus().equals("confirmed")) {
+      return "redirect:/order/confirm?id=" + order.getId();
+    }
     Restaurant restaurant = implementation.getRestaurant(order.getRestaurantId());
     model.addAttribute("orderConfirmDTO", new OrderConfirmDTO());
     model.addAttribute("order", order);

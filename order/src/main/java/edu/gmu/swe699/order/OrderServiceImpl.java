@@ -78,6 +78,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     Order order = orderOptional.get();
+
+    if (order.getStatus().equals("confirmed"))
+      return order;
+
     order.setDeliveryAddr(orderConfirmDTO.getDeliveryAddress());
     order.setDeliveryInst(orderConfirmDTO.getDeliveryInst());
     order.setStatus("confirmed");

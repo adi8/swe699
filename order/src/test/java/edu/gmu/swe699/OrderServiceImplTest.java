@@ -1,5 +1,13 @@
 package edu.gmu.swe699;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import edu.gmu.swe699.dto.OrderConfirmDTO;
 import edu.gmu.swe699.dynamodb.model.Order;
 import edu.gmu.swe699.dynamodb.model.OrderMenuItem;
@@ -9,30 +17,14 @@ import edu.gmu.swe699.dynamodb.repo.RestaurantRepository;
 import edu.gmu.swe699.order.OrderServiceImpl;
 import edu.gmu.swe699.tasks.SendConfirmedOrder;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import javax.inject.Inject;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplTest {
@@ -154,11 +146,30 @@ public class OrderServiceImplTest {
   }
 
   @Test
+  public void confirmOrderOnAlreadyConfirmedOrderTest() {
+    Order order = mock(Order.class);
+    OrderConfirmDTO orderConfirmDTO = mock(OrderConfirmDTO.class);
+
+    when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+    when(order.getStatus()).thenReturn("confirmed");
+
+    Order confirmedOrder = orderServiceImpl.confirmOrder(orderConfirmDTO);
+
+    verify(orderRepository, times(1)).findById(any());
+    verify(order, times(0)).setDeliveryAddr(any());
+    verify(order, times(0)).setDeliveryInst(any());
+    verify(order, times(0)).setStatus(any());
+    verify(orderRepository, times(0)).save(any());
+    assertNotNull(confirmedOrder);
+  }
+
+  @Test
   public void confirmOrderExists() {
     Order order = mock(Order.class);
     OrderConfirmDTO orderConfirmDTO = mock(OrderConfirmDTO.class);
 
     when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+    when(order.getStatus()).thenReturn("review");
 
     Order confirmedOrder = orderServiceImpl.confirmOrder(orderConfirmDTO);
 

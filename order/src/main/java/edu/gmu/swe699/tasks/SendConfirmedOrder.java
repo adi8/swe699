@@ -43,9 +43,9 @@ public class SendConfirmedOrder {
     try {
       orderJsonStr = URLEncoder
           .encode(mapper.writeValueAsString(order), StandardCharsets.UTF_8.toString());
-      restaurantManagerOrderUrl += "'" + orderJsonStr + "'";
+      restaurantManagerOrderUrl += orderJsonStr;
       System.out.println("Sending: " + restaurantManagerOrderUrl);
-      restTemplate.postForObject(restaurantManagerOrderUrl, null, Order.class);
+      restTemplate.postForObject(restaurantManagerOrderUrl, null, String.class);
     } catch (JsonProcessingException | UnsupportedEncodingException ex) {
       System.out.println("ERROR: " + ex.getMessage());
       ex.printStackTrace();
