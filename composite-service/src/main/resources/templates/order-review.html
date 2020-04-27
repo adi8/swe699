@@ -22,44 +22,69 @@
         </div>
 
         <!-- Place Order Form -->
-        <form action="/order/confirm" method="post" id="placeOrderForm">
+        <form action="/order/review" method="post" id="placeOrderForm">
           <input type="hidden" id="orderId" name="orderId" th:value="${order.id}">
           <div class="row">
             <div class="col">
               <div class="card shadow-sm mt-3">
                 <div class="card-header">Delivery Information</div>
                 <div class="card-body">
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.streetAddr1')} ? 'has-error'">
                     <label for="streetAddr1">Street Address <small>Line 1</small></label>
-                    <input type="text" class="form-control" name="streetAddr1" id="streetAddr1">
+                    <input type="text" class="form-control" name="streetAddr1" id="streetAddr1"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.streetAddr1')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.streetAddr1')}"
+                         th:errors="*{orderConfirmDTO.streetAddr1}" class="invalid-feedback"
+                         id="errorStreetAddr1"></div>
                   </div>
                   <div class="form-group">
                     <label for="streetAddr2">Street Address <small>Line 2</small></label>
                     <input type="text" class="form-control" name="streetAddr2" id="streetAddr2">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.city')} ? 'has-error'">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" name="city" id="city">
+                    <input type="text" class="form-control" name="city" id="city"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.city')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.city')}"
+                         th:errors="*{orderConfirmDTO.city}" class="invalid-feedback"
+                         id="errorCity"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.state')} ? 'has-error'">
                     <label for="state">State</label>
-                    <select class="custom-select" name="state" id="state">
-                      <option selected disabled value="Select">Select</option>
+                    <select class="custom-select" name="state" id="state"
+                            th:classappend="${#fields.hasErrors('orderConfirmDTO.state')} ? 'is-invalid'">
+                      <option selected value="">Select</option>
                       <option th:each="state : ${states}" th:value="${state}"
                               th:text="${state}"></option>
                     </select>
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.state')}"
+                         th:errors="*{orderConfirmDTO.state}" class="invalid-feedback"
+                         id="errorState"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.country')} ? 'has-error'">
                     <label for="country">Country</label>
-                    <select class="custom-select" name="country" id="country">
-                      <option selected disabled value="Select">Select</option>
+                    <select class="custom-select" name="country" id="country"
+                            th:classappend="${#fields.hasErrors('orderConfirmDTO.country')} ? 'is-invalid'">
+                      <option selected value="">Select</option>
                       <option th:each="country : ${countries}" th:value="${country}"
                               th:text="${country}"></option>
                     </select>
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.country')}"
+                         th:errors="*{orderConfirmDTO.country}" class="invalid-feedback"
+                         id="errorCountry"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.zipCode')} ? 'has-error'">
                     <label for="zipCode">Zip Code</label>
-                    <input type="text" class="form-control" name="zipCode" id="zipCode">
+                    <input type="text" class="form-control" name="zipCode" id="zipCode"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.zipCode')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.zipCode')}"
+                         th:errors="*{orderConfirmDTO.zipCode}" class="invalid-feedback"
+                         id="errorZipCode"></div>
                   </div>
                   <div class="form-group">
                     <label for="deliveryInst">Delivery Instructions</label>
@@ -74,21 +99,42 @@
               <div class="card shadow-sm mt-3">
                 <div class="card-header">Payment Information</div>
                 <div class="card-body">
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.nameOnCard')} ? 'has-error'">
                     <label for="nameOnCard">Name on Card</label>
-                    <input type="text" class="form-control" name="nameOnCard" id="nameOnCard">
+                    <input type="text" class="form-control" name="nameOnCard" id="nameOnCard"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.nameOnCard')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.nameOnCard')}"
+                         th:errors="*{orderConfirmDTO.nameOnCard}" class="invalid-feedback"
+                         id="errorNameOnCard"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.cardNumber')} ? 'has-error'">
                     <label for="cardNumber">Card Number</label>
-                    <input type="text" class="form-control" name="cardNumber" id="cardNumber">
+                    <input type="text" class="form-control" name="cardNumber" id="cardNumber"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.cardNumber')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.cardNumber')}"
+                         th:errors="*{orderConfirmDTO.cardNumber}" class="invalid-feedback"
+                         id="errorCardNumber"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.cardValidThru')} ? 'has-error'">
                     <label for="cardValidThru">Valid Thru</label>
-                    <input type="text" class="form-control" name="cardValidThru" id="cardValidThru">
+                    <input type="text" class="form-control" placeholder="MM/YY" name="cardValidThru"
+                           id="cardValidThru"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.cardValidThru')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.cardValidThru')}"
+                         th:errors="*{orderConfirmDTO.cardValidThru}" class="invalid-feedback"
+                         id="errorCardValidThru"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group"
+                       th:classappend="${#fields.hasErrors('orderConfirmDTO.cardCvv')} ? 'has-error'">
                     <label for="cardCvv">CVV</label>
-                    <input type="text" class="form-control" name="cardCvv" id="cardCvv">
+                    <input type="text" class="form-control" name="cardCvv" id="cardCvv"
+                           th:classappend="${#fields.hasErrors('orderConfirmDTO.cardCvv')} ? 'is-invalid'">
+                    <div th:if="${#fields.hasErrors('orderConfirmDTO.cardCvv')}"
+                         th:errors="*{orderConfirmDTO.cardCvv}" class="invalid-feedback"
+                         id="errorCardCvv"></div>
                   </div>
                 </div>
               </div>

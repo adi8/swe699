@@ -6,13 +6,16 @@ import edu.gmu.swe699.dynamodb.model.Order;
 import edu.gmu.swe699.dynamodb.model.Restaurant;
 import java.util.Arrays;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class OrderController {
@@ -72,10 +75,21 @@ public class OrderController {
     return "order-landing";
   }
 
+  @PostMapping(value = "/order", consumes = "application/JSON")
+  public String review(@RequestBody Order order, Model model,
+      RedirectAttributes redirectAttributes) {
+    Order saveOrder = implementation.createOrder(order);
+    return "redirect:/order/review?id=" + saveOrder.getId();
+  }
+
   @GetMapping(value = "/order/review")
   public String review(@RequestParam(name = "id", required = true) String id, Model model) {
     Order order = implementation.getOrder(id);
+    if (order.getStatus().equals("confirmed")) {
+      return "redirect:/order/confirm?id=" + order.getId();
+    }
     Restaurant restaurant = implementation.getRestaurant(order.getRestaurantId());
+    model.addAttribute("orderConfirmDTO", new OrderConfirmDTO());
     model.addAttribute("order", order);
     model.addAttribute("restaurant", restaurant);
     model.addAttribute("states", states);
@@ -83,22 +97,28 @@ public class OrderController {
     return "order-review";
   }
 
-  @PostMapping(value = "/order/review", consumes = "application/JSON")
-  public String review(@RequestBody Order order, Model model) {
-    Order savedOrder = implementation.createOrder(order);
-    Restaurant restaurant = implementation.getRestaurant(order.getRestaurantId());
-    model.addAttribute("restaurant", restaurant);
-    model.addAttribute("order", savedOrder);
-    model.addAttribute("states", states);
-    model.addAttribute("countries", countries);
-    return "order-review";
+  @PostMapping(value = "/order/review")
+  public String review(@Valid OrderConfirmDTO orderConfirmDTO, BindingResult bindingResult,
+      Model model) {
+    if (bindingResult.hasErrors()) {
+      Order order = implementation.getOrder(orderConfirmDTO.getOrderId());
+      Restaurant restaurant = implementation.getRestaurant(order.getRestaurantId());
+      model.addAttribute("orderConfirmDTO", orderConfirmDTO);
+      model.addAttribute("order", order);
+      model.addAttribute("restaurant", restaurant);
+      model.addAttribute("states", states);
+      model.addAttribute("countries", countries);
+      return "order-review";
+    }
+    Order confirmOrder = implementation.confirmOrder(orderConfirmDTO);
+    return "redirect:/order/confirm?id=" + confirmOrder.getId();
   }
 
-  @PostMapping(value = "/order/confirm")
-  public String confirm(OrderConfirmDTO orderConfirmDTO, Model model) {
-    Order confirmedOrder = implementation.confirmOrder(orderConfirmDTO);
-    Restaurant restaurant = implementation.getRestaurant(confirmedOrder.getRestaurantId());
-    model.addAttribute("order", confirmedOrder);
+  @GetMapping(value = "/order/confirm")
+  public String confirm(@RequestParam(name = "id", required = true) String id, Model model) {
+    Order order = implementation.getOrder(id);
+    Restaurant restaurant = implementation.getRestaurant(order.getRestaurantId());
+    model.addAttribute("order", order);
     model.addAttribute("restaurant", restaurant);
     return "order-confirm";
   }

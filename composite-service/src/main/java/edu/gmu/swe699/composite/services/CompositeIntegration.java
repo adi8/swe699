@@ -72,9 +72,6 @@ public class CompositeIntegration implements OrderService {
     try {
       String url = orderServiceUrl + "/order/confirm";
       Order order = restTemplate.postForObject(url, orderConfirmDTO, Order.class);
-
-      // TODO: send order update to restaurant manager
-
       return order;
     } catch (HttpClientErrorException ex) {
       System.out.println("ERROR: " + ex.getMessage());
