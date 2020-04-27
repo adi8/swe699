@@ -1,15 +1,15 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.4.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
-	id 'idea'
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'idea'
 }
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 group = 'edu.gmu.swe699'
@@ -17,24 +17,34 @@ version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	developmentOnly('org.springframework.boot:spring-boot-devtools')
+    developmentOnly('org.springframework.boot:spring-boot-devtools')
 
-	implementation project(':api')
 
-	implementation('com.amazonaws:aws-java-sdk-dynamodb:1.11.739')
-	implementation('com.github.derjust:spring-data-dynamodb:5.0.4')
-	implementation('org.springframework.boot:spring-boot-starter-web:2.0.1.RELEASE')
+    implementation project(':api')
+
+    implementation('com.amazonaws:aws-java-sdk-dynamodb:1.11.739')
+    implementation('com.github.derjust:spring-data-dynamodb:5.0.4')
+    implementation('org.springframework.boot:spring-boot-starter-web:2.0.1.RELEASE')
     implementation('org.springframework.data:spring-data-commons:2.0.1.RELEASE')
+    implementation('org.apache.logging.log4j:log4j-api')
+    implementation('org.apache.logging.log4j:log4j-core')
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
+    testLogging {
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+        events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+    }
 }
+

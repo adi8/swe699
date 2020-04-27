@@ -19,6 +19,8 @@ import edu.gmu.swe699.tasks.SendConfirmedOrder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplTest {
+
+  private static final Logger logger = LogManager.getLogger("OrderServiceImplTest");
 
   @Mock
   private RestaurantRepository restaurantRepository;
@@ -42,6 +46,14 @@ public class OrderServiceImplTest {
   @Autowired
   private OrderServiceImpl orderServiceImpl;
 
+  private String getTestName() {
+    return Thread.currentThread().getStackTrace()[3].getMethodName();
+  }
+
+  private void printSuccessMessage() {
+    logger.info("{} succeeded", getTestName());
+  }
+
   @Test
   public void getOrderDoesNotExistsTest() {
     when(orderRepository.findById(any())).thenReturn(Optional.empty());
@@ -50,6 +62,7 @@ public class OrderServiceImplTest {
 
     verify(orderRepository, times(1)).findById(any());
     assertNull(order);
+    printSuccessMessage();
   }
 
   @Test
@@ -60,6 +73,7 @@ public class OrderServiceImplTest {
 
     verify(orderRepository, times(1)).findById(any());
     assertNotNull(order);
+    printSuccessMessage();
   }
 
   @Test
@@ -70,6 +84,7 @@ public class OrderServiceImplTest {
 
     verify(restaurantRepository, times(1)).findById(any());
     assertNull(restaurant);
+    printSuccessMessage();
   }
 
   @Test
@@ -80,6 +95,7 @@ public class OrderServiceImplTest {
 
     verify(restaurantRepository, times(1)).findById(any());
     assertNotNull(restaurant);
+    printSuccessMessage();
   }
 
   @Test
@@ -91,6 +107,7 @@ public class OrderServiceImplTest {
     Order createdOrder = orderServiceImpl.createOrder(order);
     verify(restaurantRepository, times(1)).findById(any());
     assertNull(createdOrder);
+    printSuccessMessage();
   }
 
   @Test
@@ -110,6 +127,7 @@ public class OrderServiceImplTest {
     verify(order, times(1)).getOrderMenuItems();
     verify(restaurant, times(1)).hasMenuItem(any());
     assertNull(createdOrder);
+    printSuccessMessage();
   }
 
   @Test
@@ -131,6 +149,7 @@ public class OrderServiceImplTest {
     verify(order, times(1)).setId(any());
     verify(order, times(1)).setStatus(any());
     assertNotNull(createdOrder);
+    printSuccessMessage();
   }
 
   @Test
@@ -143,6 +162,7 @@ public class OrderServiceImplTest {
 
     verify(orderRepository, times(1)).findById(any());
     assertNull(confirmedOrder);
+    printSuccessMessage();
   }
 
   @Test
@@ -161,6 +181,7 @@ public class OrderServiceImplTest {
     verify(order, times(0)).setStatus(any());
     verify(orderRepository, times(0)).save(any());
     assertNotNull(confirmedOrder);
+    printSuccessMessage();
   }
 
   @Test
